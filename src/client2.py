@@ -15,10 +15,9 @@ while cv2.waitKey(33) < 0:
     ret, frame = cap.read()
     cv2.imwrite(filename, frame)
 
-    currenttime = time.strftime('%Y%m%d%H%M%S')
     with open(filename, "rb") as f:
         contents = f.read()
-    files = {"file": (currenttime+"_"+osdata+".jpg", contents, "image/jpg")}
+    files = {"file": (f"{osdata}.jpg", contents, "image/jpg")}
 
     response = requests.post(url, files=files)
     print(response.json())
