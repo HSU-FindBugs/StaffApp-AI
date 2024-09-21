@@ -1,10 +1,19 @@
 from fastapi import FastAPI, File, UploadFile, HTTPException, Response
 from fastapi.responses import JSONResponse, StreamingResponse
+from fastapi.middleware.cors import CORSMiddleware
 import os
 import yolo
 import cv2
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # 모든 도메인 허용 (필요 시 특정 도메인으로 제한 가능)
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 hardware_info = [
     "00000000a1d92ca0",
@@ -49,7 +58,8 @@ async def upload_file(file: UploadFile):
         fp.write(content)
     # 경로
     frame = yolo.check_bug(directory)
-    cv2.imwrite(directory + '/' + data[0] + '.jpg', frame)
+    # cv2.imwrite(directory + '/' + data[0] + '.jpg', frame)
+    cv2.imwrite(directory + '/temp.jpg', frame)
     return JSONResponse({"filename" : file.filename})
 
 @app.get("/video/{image_num}")
