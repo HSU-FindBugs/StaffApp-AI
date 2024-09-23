@@ -5,6 +5,7 @@ import os
 import yolo
 import cv2
 import shutil
+import time
 
 app = FastAPI()
 
@@ -41,6 +42,7 @@ def streaming(directory):
         if not ret or buffer is None or len(buffer) == 0:
             continue  # 인코딩 실패 시 다시 시도
 
+        time.sleep(2)
 
         frame = buffer.tobytes()
         yield (b'--frame\r\n'
