@@ -1,4 +1,5 @@
 import cv2
+import sql
 from ultralytics import YOLO
 
 CONFIDENCE_THRESHOLD = 0.5
@@ -8,10 +9,6 @@ WHITE = (255, 255, 255)
 # 모델 로드
 model = YOLO('../best.pt')
 class_names = model.names  # 클래스 이름들
-
-# 특정 행동 수행 함수 예시 (콘솔 출력, 알림 등)
-def on_detection_action(frame, serial):
-    print(f"Detected: cockroach")
 
 def check_bug(directory):
     frame = cv2.imread(directory + "/temp.jpg", cv2.IMREAD_COLOR)
@@ -35,7 +32,7 @@ def check_bug(directory):
 
         # 물체가 감지되었음을 표시하고 특정 행동 수행
         object_detected = True
-        on_detection_action(frame, serial[2])
+        sql.on_detection_action(frame, serial[2])
 
     # 물체가 감지되지 않았을 때의 행동 (선택적)
     if not object_detected:
