@@ -1,5 +1,5 @@
 import cv2
-import sql
+import sql2
 from ultralytics import YOLO
 
 CONFIDENCE_THRESHOLD = 0.5
@@ -27,13 +27,13 @@ def check_bug(directory):
         label = class_names[class_id]  # 클래스 이름으로 라벨 변환
 
         # 물체가 감지된 경우 사각형 그리기 및 텍스트 표시
-        cv2.rectangle(frame, (xmin, ymin), (xmax, ymax), GREEN, 2)
-        cv2.putText(frame, label + ' ' + str(round(confidence, 2)), (xmin, ymin), cv2.FONT_ITALIC, 1, GREEN, 2)
+        cv2.rectangle(frame, (xmin, ymin), (xmax, ymax), GREEN, 1)
+        cv2.putText(frame, label + ' ' + str(round(confidence, 2)), (xmin, ymin), cv2.FONT_ITALIC, 0.5, GREEN, 1)
 
         # 물체가 감지되었음을 표시하고 특정 행동 수행
         object_detected = True
-        sql.on_detection_action(frame, serial[2])
-
+        cv2.imwrite(f"{directory}/temp2.jpg", frame)
+        sql2.on_detection_action(frame, serial[2])
     # 물체가 감지되지 않았을 때의 행동 (선택적)
     if not object_detected:
         print("No object detected.")
